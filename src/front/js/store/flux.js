@@ -45,25 +45,25 @@ const getState = ({ getStore, getActions, setStore }) => {
 						password: password
 					})
 				};
-			
+						
 				try{
-					const resp = await fetch("https://3001-galdea-authenticationsi-47yia1n3882.ws-us82.gitpod.io/?vscodeBrowserReqId=1673533601912/api/token", opts)
+					const resp = await fetch("https://3001-galdea-authenticationsi-47yia1n3882.ws-us82.gitpod.io/api/token", opts)
 					if (resp.status !== 200){
-						alert("There is some sort of error");
+						console.error(resp.statusText) // better to show message on UI
 						return false;
 					}
-
-					const data = await resp.jason();
+			
+					const data = await resp.json();
 					console.log("comming from the backend", data);
 					sessionStorage.setItem("token", data.access_token);
 					setStore({ token: data.access_token});
 					return true;
 				}
 				catch(error){
-					console.error ("There's been an error login in")
+					console.error ("There's been an error login in", error)
 				}
-			},			
-
+			},
+			
 			getMessage: async () => {
 				const store =getStore();
 				const opts = {
